@@ -24,7 +24,6 @@ func AddCategory(c *gin.Context) {
 	})
 }
 
-
 // 查询分类列表
 func GetCate(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
