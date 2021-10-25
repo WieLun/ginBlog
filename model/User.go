@@ -27,7 +27,7 @@ func CheckUser(name string) int {
 
 // 新增用户
 func CreateUser(data *User) int {
-	//data.Password = ScryptPw(data.Password)
+	data.Password = ScryptPw(data.Password)
 	err := db.Create(&data).Error
 	if err != nil {
 		return errmsg.ERROR
@@ -67,9 +67,9 @@ func DeleteUser(id int) int {
 }
 
 // 密码加密
-func (u *User) BeforeSave() {
-	u.Password = ScryptPw(u.Password)
-}
+//func (u *User) BeforeSave() {
+//	u.Password = ScryptPw(u.Password)
+//}
 
 // 密码加密,生产最好用bcrypt
 func ScryptPw(password string) string {
