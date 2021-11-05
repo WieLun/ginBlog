@@ -3,7 +3,6 @@ package model
 import (
 	"fmt"
 	"ginblog/utils/errmsg"
-	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -27,13 +26,23 @@ func CreateArt(data *Article) int {
 }
 
 // 查询分类下所有文章
-func GetCateArt(c *gin.Context)  {
-
+func GetCateArt(id, pageSize, pageNum int) ([]Article,int) {
+	var catArtList []Article
+	err := db.Preload("Category").Limit(pageSize).Offset((pageNum - 1) * pageNum).Where("category_id = ?", id).Find(&catArtList).Error
+	if err != nil {
+		return nil, errmsg.ERROR_CATE_NOT_EXIST
+	}
+	return catArtList,errmsg.SUCCESS
 }
 
 // 查询单个文章信息
-func getArtInfo(c *gin.Context) Article,int  {
-
+func GetArtInfo(id int) (Article,int) {
+	var art Article
+	err := db.Preload("Category").Where("id = ?", id).First(&art).Error
+	if err != nil {
+		return art,errmsg.ERROR_ART_NOT_EXIST
+	}
+	return art, errmsg.SUCCESS
 }
 
 // 查询文章列表
