@@ -14,16 +14,14 @@ var JwtKey = []byte(utils.JwtKey)
 
 type MyClaims struct {
 	Username string `json:"username"`
-	Password string `json:"password"`
 	jwt.StandardClaims
 }
 
 // 生成token
-func SetToken(username, password string) (string, int) {
+func SetToken(username string) (string, int) {
 	expireTime := time.Now().Add(10 * time.Hour)
 	SetClaims := MyClaims{
 		username,
-		password,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    "wielun",
@@ -42,12 +40,11 @@ func CheckToken(token string) (*MyClaims, int) {
 	settoken, _ := jwt.ParseWithClaims(token, &MyClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return JwtKey, nil
 	})
-	if key, code := settoken.Claims.(*MyClaims); code && settoken.Valid {
+	if key, _ := settoken.Claims.(*MyClaims); settoken.Valid {
 		return key, errmsg.SUCCESS
 	} else {
 		return nil, errmsg.ERROR
 	}
-
 }
 
 var code int
@@ -58,25 +55,42 @@ func JwtToken() gin.HandlerFunc {
 		tokenHeader := c.Request.Header.Get("Authorization")
 		if tokenHeader == "" {
 			code = errmsg.ERROR_TOKEN_EXIST
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
+			c.Abort()
+			return
 		}
 		checktoken := strings.SplitN(tokenHeader, " ", 2)
 		if len(checktoken) != 2 && checktoken[0] != "Bearer" {
 			code = errmsg.ERROR_TOKEN_TYPE_WRONG
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
-		key, Tcode := CheckToken(checktoken[1])
-		if Tcode == errmsg.ERROR {
+		key, tCode := CheckToken(checktoken[1])
+		if tCode == errmsg.ERROR {
 			code = errmsg.ERROR_TOKEN_WRONG
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
 		if time.Now().Unix() > key.ExpiresAt {
 			code = errmsg.ERROR_TOKEN_RUNTIME
+			c.JSON(http.StatusOK, gin.H{
+				"code":    code,
+				"message": errmsg.GetErrMsg(code),
+			})
 			c.Abort()
+			return
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"code":    code,
-			"message": errmsg.GetErrMsg(code),
-		})
 		c.Set("username", key.Username)
 		c.Next()
 	}
