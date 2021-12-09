@@ -21,14 +21,14 @@ func InitDb() {
 		utils.DbName)
 	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,  //使用单数表名，启用该选项后，`User` 表将是`user`
+			SingularTable: true, //使用单数表名，启用该选项后，`User` 表将是`user`
 		},
 	})
 	if err != nil {
 		fmt.Printf("连接数据库失败,请检查参数:", err)
 	}
 
-	db.AutoMigrate(&User{}, &Article{}, &Category{})
+	_ = db.AutoMigrate(&User{}, &Article{}, &Category{})
 	// 获取通用数据库对象 mysql.DB ，然后使用其提供的功能
 	mysqlDB, _ := db.DB()
 
