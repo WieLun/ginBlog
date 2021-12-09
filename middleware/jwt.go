@@ -11,6 +11,7 @@ import (
 )
 
 var JwtKey = []byte(utils.JwtKey)
+var code int
 
 type MyClaims struct {
 	Username string `json:"username"`
@@ -47,7 +48,6 @@ func CheckToken(token string) (*MyClaims, int) {
 	}
 }
 
-var code int
 
 // jwt中间件
 func JwtToken() gin.HandlerFunc {
