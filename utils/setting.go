@@ -5,18 +5,19 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-var(
-	AppMode string
-	HttpPort string
-	Db string
-	DbHost string
-	DbPort string
-	DbUser	string
+var (
+	AppMode    string
+	HttpPort   string
+	JwtKey     string
+	Db         string
+	DbHost     string
+	DbPort     string
+	DbUser     string
 	DbpassWord string
-	DbName string
+	DbName     string
 )
 
-func init()  {
+func init() {
 	file, err := ini.Load("config/config.ini")
 	if err != nil {
 		fmt.Println("配置文件读取失败,请检查文件路径:", err)
@@ -28,6 +29,7 @@ func init()  {
 func LoadServer(file *ini.File) {
 	AppMode = file.Section("server").Key("AppMode").MustString("debug")
 	HttpPort = file.Section("server").Key("HttpPort").MustString(":3000")
+	JwtKey = file.Section("server").Key("JwtKey").MustString("812d23fek1234")
 }
 
 func LoadData(file *ini.File) {

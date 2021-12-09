@@ -8,7 +8,7 @@ const (
 	ERROR_PASSWORD_WRONG   = 1002
 	ERROR_USER_NOT_EXIST   = 1003
 	ERROR_TOKEN_EXIST      = 1004
-	ERROR_TOKEN_TUNTIME    = 1005
+	ERROR_TOKEN_RUNTIME    = 1005
 	ERROR_TOKEN_WRONG      = 1006
 	ERROR_TOKEN_TYPE_WRONG = 1007
 	// code = 2000 文章模块的错误
@@ -25,7 +25,7 @@ var codeMsg = map[int]string{
 	ERROR_PASSWORD_WRONG:   "密码错误",
 	ERROR_USER_NOT_EXIST:   "用户不存在",
 	ERROR_TOKEN_EXIST:      "Token不存在",
-	ERROR_TOKEN_TUNTIME:    "Token已过期",
+	ERROR_TOKEN_RUNTIME:    "Token已过期",
 	ERROR_TOKEN_WRONG:      "Token不正确",
 	ERROR_TOKEN_TYPE_WRONG: "Token格式错误",
 	ERROR_ART_NOT_EXIST:    "文章不存在",
