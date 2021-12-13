@@ -15,4 +15,4 @@
 # vendor/
 .idea
 latest.log
-log/log.*
+log

@@ -1,2 +1,0 @@
-time="2021-12-13T14:20:10+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=111 HostName=Deepin Ip=127.0.0.1 Method=GET Path="/api/v1/category?pagesize&pagenum" SpendTime="1 ms" status=200
-time="2021-12-13T14:20:12+08:00" level=info Agent="ApiPOST Runtime +https://www.apipost.cn" DataSize=111 HostName=Deepin Ip=127.0.0.1 Method=GET Path="/api/v1/category?pagesize&pagenum" SpendTime="2 ms" status=200
